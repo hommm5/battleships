@@ -8,8 +8,8 @@ import jakarta.persistence.*;
 @Table(name = "categories")
 public class Category extends BaseEntity {
 
-    @Column(unique = true)
-    @Enumerated(EnumType.STRING)
+    @Column(unique = true, nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Name name;
 
     @Nullable
@@ -17,6 +17,10 @@ public class Category extends BaseEntity {
     private String description;
 
     public Category() {
+    }
+
+    public Category(Name name) {
+        this.name = name;
     }
 
     public Name getName() {
