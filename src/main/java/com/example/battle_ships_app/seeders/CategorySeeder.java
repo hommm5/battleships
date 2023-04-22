@@ -30,6 +30,5 @@ public class CategorySeeder implements CommandLineRunner {
             categoryRepository.saveAll(categoryList);
 
         }
-        System.out.println("seed");
     }
 }
