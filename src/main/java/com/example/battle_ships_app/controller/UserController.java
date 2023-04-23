@@ -1,6 +1,7 @@
 package com.example.battle_ships_app.controller;
 
 import com.example.battle_ships_app.models.dto.UserDto;
+import com.example.battle_ships_app.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,12 +13,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
-
+    private final UserService userService;
 
 
     @Autowired
-    public UserController() {
-
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @ModelAttribute("userDto")
@@ -48,9 +49,17 @@ public class UserController {
         System.out.println(userDto.toString());
 
         if(bindingResult.hasErrors()){
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BidingResult.userRegistrationDTO",
-                    bindingResult);
             redirectAttributes.addFlashAttribute("userRegistrationDTO", userDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BidingResult.userDto",
+                    bindingResult);
+            System.out.println("error");
+            return "redirect:/register";
+        }
+
+        try{
+            userService.register(userDto);
+        }catch (RuntimeException s){
+            System.out.println(s.getMessage());
             return "redirect:/register";
         }
 

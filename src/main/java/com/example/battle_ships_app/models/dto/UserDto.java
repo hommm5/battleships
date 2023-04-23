@@ -23,6 +23,7 @@ public class UserDto {
     private String password;
 
     @NotNull
+    @Size(min = 3)
     private String confirmPassword;
 
     public UserDto() {
@@ -71,5 +72,16 @@ public class UserDto {
     public UserDto setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                '}';
     }
 }
