@@ -48,7 +48,7 @@ public class UserController {
 
         System.out.println(userDto.toString());
 
-        if(bindingResult.hasErrors()){
+        if(bindingResult.hasErrors() || !this.userService.register(userDto)){
             redirectAttributes.addFlashAttribute("userRegistrationDTO", userDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BidingResult.userDto",
                     bindingResult);

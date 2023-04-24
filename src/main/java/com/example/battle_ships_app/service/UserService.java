@@ -18,19 +18,21 @@ public class UserService {
         this.modelMapper = modelMapper;
     }
 
-    public void register(UserDto userDto){
+    public boolean register(UserDto userDto){
         if (!userDto.getPassword().equals(userDto.getConfirmPassword())){
-            throw new RuntimeException("passwords.match");
+            return false;
+           /* throw new RuntimeException("passwords.match");*/
         }
 
         Optional<User> findByEmail = userRepository.findByEmail(userDto.getEmail());
 
         if (findByEmail.isPresent()){
-            throw new RuntimeException("email.used");
+            return false;
+            /*throw new RuntimeException("email.used");*/
         }
         User user = modelMapper.map(userDto, User.class);
 
         this.userRepository.save(user);
-
+        return true;
     }
 }
