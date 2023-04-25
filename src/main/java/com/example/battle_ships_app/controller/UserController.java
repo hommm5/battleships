@@ -1,6 +1,7 @@
 package com.example.battle_ships_app.controller;
 
 import com.example.battle_ships_app.models.dto.UserDto;
+import com.example.battle_ships_app.models.dto.UserLoginDto;
 import com.example.battle_ships_app.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,35 @@ public class UserController {
         return new UserDto();
     }
 
+    @ModelAttribute("userLoginDto")
+    public UserLoginDto form(){
+        return new UserLoginDto();
+    }
+
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
+    @PostMapping("/login")
+    public String doLogin(@Valid UserLoginDto userLoginDto,
+                        BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("userLoginDto", userLoginDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BidingResult.userLoginDto",
+                    bindingResult);
+
+            return "redirect:/login";
+        }
+
+        return "redirect:/home";
+    }
     @GetMapping("/home")
     public String home(){
         return "home";
     }
+
 
 
     @GetMapping("/register")
@@ -49,10 +70,10 @@ public class UserController {
         System.out.println(userDto.toString());
 
         if(bindingResult.hasErrors() || !this.userService.register(userDto)){
-            redirectAttributes.addFlashAttribute("userRegistrationDTO", userDto);
+            redirectAttributes.addFlashAttribute("userDto", userDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BidingResult.userDto",
                     bindingResult);
-            System.out.println("error");
+
             return "redirect:/register";
         }
 
@@ -65,6 +86,7 @@ public class UserController {
 
         return "redirect:/login";
     }
+
 
 
 }
