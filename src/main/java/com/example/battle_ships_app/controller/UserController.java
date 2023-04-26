@@ -49,6 +49,10 @@ public class UserController {
             return "redirect:/login";
         }
 
+        if(!this.userService.login(userLoginDto)){
+            redirectAttributes.addFlashAttribute("userLoginDto", userLoginDto);
+        }
+
         return "redirect:/home";
     }
     @GetMapping("/home")

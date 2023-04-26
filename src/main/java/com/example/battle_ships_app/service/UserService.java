@@ -1,6 +1,7 @@
 package com.example.battle_ships_app.service;
 import com.example.battle_ships_app.models.User;
 import com.example.battle_ships_app.models.dto.UserDto;
+import com.example.battle_ships_app.models.dto.UserLoginDto;
 import com.example.battle_ships_app.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -45,5 +46,9 @@ public class UserService {
         this.userRepository.save(user);
 
         return true;
+    }
+
+    public boolean login(UserLoginDto userLoginDto){
+        return false;
     }
 }
