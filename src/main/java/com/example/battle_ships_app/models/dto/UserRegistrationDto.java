@@ -1,39 +1,46 @@
 package com.example.battle_ships_app.models.dto;
+import com.example.battle_ships_app.validations.FieldMatch;
+import com.example.battle_ships_app.validations.UniqueUserName;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+@FieldMatch(
+        first = "password",
+        second = "confirmPassword",
+        message = "Passwords do not match"
+)
+public class UserRegistrationDto {
 
-public class UserDto {
-
-    @NotNull
-    @Size(min = 3, max = 10)
+    @NotBlank(message = "Username should not be empty.")
+    @Size(min = 3, max = 10, message = "Length must be between 3 and 10 symbols")
     private String username;
 
-    @NotNull
-    @Size(min = 5, max = 20)
+    @NotBlank(message = "Full name should not be empty.")
+    @Size(min = 5, max = 20, message = "Length must be between 5 and 20 symbols")
     private String fullName;
 
-    @NotNull
-    @Email
+    @NotBlank(message = "User email should be provided.")
+    @Email(message = "User email should be valid.")
+    @UniqueUserName(message = "User email should be unique.")
     private String email;
 
-    @NotNull
-    @Size(min = 3)
+    @NotBlank(message = "Password should not be empty.")
+    @Size(min = 3, message = "Length must be at least 3 symbols")
     private String password;
 
-    @NotNull
+    @NotBlank
     @Size(min = 3)
     private String confirmPassword;
 
-    public UserDto() {
+    public UserRegistrationDto() {
     }
 
     public String getUsername() {
         return username;
     }
 
-    public UserDto setUsername(String username) {
+    public UserRegistrationDto setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -42,7 +49,7 @@ public class UserDto {
         return fullName;
     }
 
-    public UserDto setFullName(String fullName) {
+    public UserRegistrationDto setFullName(String fullName) {
         this.fullName = fullName;
         return this;
     }
@@ -51,7 +58,7 @@ public class UserDto {
         return email;
     }
 
-    public UserDto setEmail(String email) {
+    public UserRegistrationDto setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -60,7 +67,7 @@ public class UserDto {
         return password;
     }
 
-    public UserDto setPassword(String password) {
+    public UserRegistrationDto setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -69,7 +76,7 @@ public class UserDto {
         return confirmPassword;
     }
 
-    public UserDto setConfirmPassword(String confirmPassword) {
+    public UserRegistrationDto setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
         return this;
     }

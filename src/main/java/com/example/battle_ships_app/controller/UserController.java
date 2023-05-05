@@ -1,6 +1,6 @@
 package com.example.battle_ships_app.controller;
 
-import com.example.battle_ships_app.models.dto.UserDto;
+import com.example.battle_ships_app.models.dto.UserRegistrationDto;
 import com.example.battle_ships_app.models.dto.UserLoginDto;
 import com.example.battle_ships_app.service.UserService;
 import jakarta.validation.Valid;
@@ -22,75 +22,70 @@ public class UserController {
         this.userService = userService;
     }
 
-    @ModelAttribute("userDto")
-    public UserDto initForm(){
-        return new UserDto();
-    }
 
     @ModelAttribute("userLoginDto")
-    public UserLoginDto form(){
+    public UserLoginDto form() {
         return new UserLoginDto();
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @PostMapping("/login")
-    public String doLogin(@Valid UserLoginDto userLoginDto,
-                        BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String login(@Valid UserLoginDto userLoginDto,
+                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userLoginDto", userLoginDto);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BidingResult.userLoginDto",
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDto",
                     bindingResult);
 
             return "redirect:/login";
         }
 
-        if(!this.userService.login(userLoginDto)){
+        if (!this.userService.login(userLoginDto)) {
             redirectAttributes.addFlashAttribute("userLoginDto", userLoginDto);
+            redirectAttributes.addFlashAttribute("badCredentials", true);
         }
 
         return "redirect:/home";
     }
+
     @GetMapping("/home")
-    public String home(){
+    public String home() {
         return "home";
     }
 
-
-
+    @ModelAttribute("userRegistrationDto")
+    public UserRegistrationDto initForm() {
+        return new UserRegistrationDto();
+    }
     @GetMapping("/register")
     public String register() {
         return "register";
     }
 
     @PostMapping("/register")
-    public String doRegister(@Valid UserDto userDto,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String register(@Valid UserRegistrationDto userRegistrationDto,
+                           BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        System.out.println(userDto.toString());
 
-        if(bindingResult.hasErrors() || !this.userService.register(userDto)){
-            redirectAttributes.addFlashAttribute("userDto", userDto);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BidingResult.userDto",
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userRegistrationDto", userRegistrationDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDto",
                     bindingResult);
 
             return "redirect:/register";
         }
 
-        try{
-            userService.register(userDto);
-        }catch (RuntimeException s){
-            System.out.println(s.getMessage());
-            return "redirect:/register";
-        }
+            userService.register(userRegistrationDto);
+
+
 
         return "redirect:/login";
     }
-
 
 
 }
