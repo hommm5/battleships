@@ -48,6 +48,8 @@ public class UserController {
         if (!this.userService.login(userLoginDto)) {
             redirectAttributes.addFlashAttribute("userLoginDto", userLoginDto);
             redirectAttributes.addFlashAttribute("badCredentials", true);
+
+            return "redirect:/login";
         }
 
         return "redirect:/home";
@@ -83,8 +85,15 @@ public class UserController {
             userService.register(userRegistrationDto);
 
 
-
         return "redirect:/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(){
+
+        this.userService.logout();
+
+        return "redirect:/index";
     }
 
 
