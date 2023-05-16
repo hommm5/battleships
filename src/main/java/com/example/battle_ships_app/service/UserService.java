@@ -28,18 +28,18 @@ public class UserService {
     }
 
     public boolean register(UserRegistrationDto userRegistrationDto) {
-        if (!userRegistrationDto.getPassword().equals(userRegistrationDto.getConfirmPassword())) {
+        /*if (!userRegistrationDto.getPassword().equals(userRegistrationDto.getConfirmPassword())) {
             LOGGER.info("Passwords don't match.");
             System.out.println("passss");
             return false;
-        }
+        }*/
 
         Optional<User> findByUsername = userRepository.findByUsername(userRegistrationDto.getUsername());
 
-        if (findByUsername.isPresent()) {
+        /*if (findByUsername.isPresent()) {
             LOGGER.info("There is an existing user with this username.");
             return false;
-        }
+        }*/
 
         User user = modelMapper.map(userRegistrationDto, User.class);
 
@@ -52,7 +52,8 @@ public class UserService {
 
     public boolean login(UserLoginDto userLoginDto) {
 
-        Optional<User> user = this.userRepository.findByUsernameAndPassword(userLoginDto.getUsername(), userLoginDto.getPassword());
+        Optional<User> user = this.userRepository.
+                findByUsernameAndPassword(userLoginDto.getUsername(), userLoginDto.getPassword());
 
         if (user.isEmpty()) {
             return false;

@@ -55,10 +55,6 @@ public class UserController {
         return "redirect:/home";
     }
 
-    @GetMapping("/home")
-    public String home() {
-        return "home";
-    }
 
     @ModelAttribute("userRegistrationDto")
     public UserRegistrationDto initForm() {
