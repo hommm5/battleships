@@ -21,7 +21,7 @@
         <div class="container bg-blur rounded p-5 mt-5 w-75">
             <form th:action="@{/ships/add}"
                   th:method="POST"
-                  th:object="createShipDto"
+                  th:object="${createShipDto}"
                   class=" text-center text-light">
                 <div class="form-group row">
                     <label for="name" class="col-sm-2 col-form-label">Name</label>
@@ -96,9 +96,9 @@
                                 th:errorclass="is-invalid"
                                 aria-describedby="categoryHelpInline">
                             <option value="" selected>Category</option>
-                            <option value="">BATTLE</option>
-                            <option value="">CARGO</option>
-                            <option value="">PATROL</option>
+                            <option value="0">BATTLE</option>
+                            <option value="1">CARGO</option>
+                            <option value="2">PATROL</option>
                         </select>
                         <small id="categoryHelpInline" class="bg-danger text-light rounded invalid-feedback">
                             You must select the category.
