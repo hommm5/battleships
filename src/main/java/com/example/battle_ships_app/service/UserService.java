@@ -67,6 +67,7 @@ public class UserService {
     }
 
     public boolean logout() {
+        this.currentUser.logout();
         return true;
     }
 }

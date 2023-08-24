@@ -1,6 +1,4 @@
 package com.example.battle_ships_app.models.dto;
-
-import com.example.battle_ships_app.models.enums.Name;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

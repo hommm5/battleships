@@ -15,4 +15,6 @@ public class HomeController {
     public String loggedOutIndex() {
         return "index";
     }
+
+
 }
