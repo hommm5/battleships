@@ -4,6 +4,7 @@ import com.example.battle_ships_app.models.Category;
 import com.example.battle_ships_app.models.Ship;
 import com.example.battle_ships_app.models.User;
 import com.example.battle_ships_app.models.dto.CreateShipDto;
+import com.example.battle_ships_app.models.dto.ShipDto;
 import com.example.battle_ships_app.models.enums.Name;
 import com.example.battle_ships_app.repositories.CategoryRepository;
 import com.example.battle_ships_app.repositories.ShipRepository;
@@ -13,14 +14,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShipService {
     private final ShipRepository shipRepository;
     private final ModelMapper modelMapper;
     private final CategoryRepository categoryRepository;
-    private CurrentUser currentUser;
+    private final CurrentUser currentUser;
     private final UserRepository userRepository;
 
     @Autowired
@@ -40,11 +43,11 @@ public class ShipService {
 
         Optional<Ship> byName = this.shipRepository.findByName(createShipDto.getName());
 
-        if (byName.isPresent()){
+        if (byName.isPresent()) {
             return false;
         }
 
-        Name shipType = switch (createShipDto.getCategory()){
+        Name shipType = switch (createShipDto.getCategory()) {
             case 0 -> Name.BATTLE;
             case 1 -> Name.CARGO;
             case 2 -> Name.PATROL;
@@ -62,5 +65,27 @@ public class ShipService {
         this.shipRepository.save(ship);
 
         return true;
+    }
+
+    public List<ShipDto> getOwnShips(long ownerId) {
+        return this.shipRepository.findByUserId(ownerId)
+                .stream()
+                .map(ShipDto::new)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<ShipDto> getEnemyShips(long ownerId) {
+        return this.shipRepository.findByUserIdNot(ownerId)
+                .stream()
+                .map(ShipDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<ShipDto> getAllSortedShips() {
+        return this.shipRepository.findByOrderByName()
+                .stream()
+                .map(ShipDto::new)
+                .collect(Collectors.toList());
     }
 }

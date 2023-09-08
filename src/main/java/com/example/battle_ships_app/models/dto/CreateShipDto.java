@@ -19,6 +19,7 @@ public class CreateShipDto {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @PastOrPresent
+    @NotNull
     private LocalDate created;
 
     @NotNull

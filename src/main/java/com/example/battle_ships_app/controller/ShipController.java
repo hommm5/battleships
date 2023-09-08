@@ -36,7 +36,7 @@ public class ShipController {
                         BindingResult bindingResult,
                         RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors() || this.shipService.create(createShipDto)) {
+        if (bindingResult.hasErrors() || !this.shipService.create(createShipDto)) {
             redirectAttributes.addFlashAttribute("createShipDto", createShipDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.createShipDto",
                     bindingResult);
