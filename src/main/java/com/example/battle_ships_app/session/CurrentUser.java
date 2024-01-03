@@ -8,7 +8,7 @@ import org.springframework.web.context.annotation.SessionScope;
 @SessionScope
 public class CurrentUser {
 
-    private Long id;
+    private long id;
 
     private String fullName;
 
@@ -19,7 +19,7 @@ public class CurrentUser {
     }
 
     public void logout(){
-        this.id = null;
+        this.id = 0;
         this.fullName = null;
     }
 

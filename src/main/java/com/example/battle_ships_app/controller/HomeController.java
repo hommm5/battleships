@@ -31,12 +31,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String LoggedInIndex() {
+
         return "index";
     }
 
     @GetMapping("/home")
     public String loggedOutIndex(Model model) {
-        if (currentUser.getId() == null) {
+        if (currentUser.getId() == 0) {
             return "redirect:/";
         }
         long loggedUserId = currentUser.getId();
